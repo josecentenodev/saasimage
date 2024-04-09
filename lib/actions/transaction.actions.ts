@@ -1,41 +1,37 @@
 "use server";
 
 import { redirect } from 'next/navigation'
-import Stripe from "stripe";
 import { handleError } from '../utils';
 import { connectToDatabase } from '../database/mongoose';
 import Transaction from '../database/models/transaction.model';
 import { updateCredits } from './user.actions';
+import { MercadoPagoConfig, Preference } from "mercadopago";
 
-export async function checkoutCredits(transaction: CheckoutTransactionParams) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const mpAccessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
 
-  const amount = Number(transaction.amount) * 100;
+const client = new MercadoPagoConfig({
+  accessToken: mpAccessToken!
+});
 
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          unit_amount: amount,
-          product_data: {
-            name: transaction.plan,
-          }
+export async function createPreference(productDetail: preferenceData) {
+  const { title, quantity, price } = productDetail
+
+    let preferenceItem = {
+      items: [
+        {
+          id: 'compracreditos',
+          title: title,
+          quantity: quantity,
+          unit_price: Number(price),
+          currency_id: "ARS",
         },
-        quantity: 1
-      }
-    ],
-    metadata: {
-      plan: transaction.plan,
-      credits: transaction.credits,
-      buyerId: transaction.buyerId,
-    },
-    mode: 'payment',
-    success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
-    cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
-  })
+      ],
+    };
 
-  redirect(session.url!)
+    const preference = await new Preference(client).create({ body: preferenceItem });
+    
+    console.log(preference)
+    redirect(preference.sandbox_init_point!)
 }
 
 export async function createTransaction(transaction: CreateTransactionParams) {

@@ -11,6 +11,7 @@
   "dependencies": {
     "@clerk/nextjs": "^4.29.10",
     "@hookform/resolvers": "^3.3.4",
+    "@mercadopago/sdk-react": "^0.0.19",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
@@ -21,6 +22,7 @@
     "cloudinary": "^2.1.0",
     "clsx": "^2.1.0",
     "lucide-react": "^0.363.0",
+    "mercadopago": "^2.0.8",
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.4",
     "next": "14.1.4",
@@ -29,7 +31,6 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.2",
-    "stripe": "^14.23.0",
     "svix": "^1.21.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",

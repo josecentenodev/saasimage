@@ -80,7 +80,7 @@ declare type CreateUserParams = {
   };
   
   declare type CreateTransactionParams = {
-    stripeId: string;
+    preferenceId: string;
     amount: number;
     credits: number;
     plan: string;
@@ -136,3 +136,9 @@ declare type CreateUserParams = {
     hasDownload?: boolean;
     setIsTransforming?: React.Dispatch<React.SetStateAction<boolean>>;
   };
+
+  declare type preferenceData = {
+    title: string;
+    quantity: number;
+    price: number;
+  }
